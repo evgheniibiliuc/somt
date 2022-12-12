@@ -18,6 +18,9 @@ impl Command for LimitCommand {
     }
 
     fn parse_params(&mut self, params: String) {
-        self.limit = params.parse().unwrap();
+        self.limit = match params.parse(){
+            Ok(val) => val,
+            Err(_) => self.limit
+        };
     }
 }
