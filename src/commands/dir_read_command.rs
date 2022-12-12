@@ -5,14 +5,14 @@ use crate::{
 };
 
 #[derive(Debug)]
-pub struct DirCommand {
+pub struct DirReadCommand {
     pub path: String,
     pub path_reader : PathReader
 }
 
-impl Command for DirCommand {
+impl Command for DirReadCommand {
     fn name(&self) -> String {
-        "dir".to_string()
+        "dir_read".to_string()
     }
 
     fn apply(&mut self, payload: &mut Vec<PathInfo>) {

@@ -1,7 +1,7 @@
 mod commands;
 mod readers;
 
-use commands::dir_command::DirCommand;
+use commands::dir_read_command::DirReadCommand;
 use commands::help_command::HelpCommand;
 use commands::limit_command::LimitCommand;
 use commands::payload_printer_command::PayloadPrinterCommand;
@@ -13,7 +13,7 @@ fn main() {
     let mut limited: Box<dyn Command> = Box::new(LimitCommand { limit: 100 });
     let mut help: Box<dyn Command> = Box::new(HelpCommand {});
     let mut payload_printer: Box<dyn Command> = Box::new(PayloadPrinterCommand {});
-    let mut dir: Box<dyn Command> = Box::new(DirCommand {
+    let mut dir: Box<dyn Command> = Box::new(DirReadCommand {
         path: "/".to_string(),
         path_reader: PathReader::new(),
     });
