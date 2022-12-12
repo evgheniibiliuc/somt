@@ -19,14 +19,14 @@ fn main() {
     });
 
     let mut commands: Vec<&mut dyn Command> = Vec::new();
-
     commands.push(help.as_mut());
     commands.push(payload_printer.as_mut());
     commands.push(dir.as_mut());
     commands.push(limited.as_mut());
 
-    let mut command_reader = CommandReader::new("-".to_string(), "=".to_string(), commands);
 
+    let mut command_reader = CommandReader::new("-", "=", commands);
+    
     loop {
         let mut input = String::new();
 

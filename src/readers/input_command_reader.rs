@@ -5,8 +5,8 @@ use super::path_reader::PathInfo;
 
 
 pub struct CommandReader<'a> {
-    command_mark: String,
-    value_delimeter_mark: String,
+    command_mark: &'a str,
+    value_delimeter_mark: &'a str,
     commands: HashMap<String, &'a mut dyn Command>,
 }
 
@@ -19,7 +19,7 @@ impl<'a> CommandReader<'a> {
 
     fn evaluate_commands(&mut self, console_line: String, payload: &mut Vec<PathInfo>) {
         console_line
-            .split(&self.command_mark.as_str().to_owned())
+            .split(&self.command_mark.to_owned())
             .filter(|str| !str.is_empty())
             .map(|str| str.trim())
             .for_each(|str| {
@@ -46,8 +46,8 @@ impl<'a> CommandReader<'a> {
     }
 
     pub fn new(
-        command_mark: String,
-        value_delimeter_mark: String,
+        command_mark: &'a str,
+        value_delimeter_mark: &'a str,
         commands_unsorted: Vec<&'a mut dyn Command>,
     ) -> Self {
         let mut commands = HashMap::new();
