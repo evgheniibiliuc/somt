@@ -1,15 +1,12 @@
-pub mod dir_command;
-pub mod help_command;
-pub mod input_command_reader;
-pub mod limit_command;
-pub mod path_reader;
-pub mod payload_printer_command;
+mod commands;
+mod readers;
 
-use dir_command::DirCommand;
-use help_command::HelpCommand;
-use input_command_reader::{Command, CommandReader};
-use limit_command::LimitCommand;
-use payload_printer_command::PayloadPrinterCommand;
+use commands::dir_command::DirCommand;
+use commands::help_command::HelpCommand;
+use commands::limit_command::LimitCommand;
+use commands::payload_printer_command::PayloadPrinterCommand;
+use readers::input_command_reader::{Command, CommandReader};
+use readers::path_reader::PathReader;
 use std::io;
 
 fn main() {
@@ -18,17 +15,17 @@ fn main() {
     let mut payload_printer: Box<dyn Command> = Box::new(PayloadPrinterCommand {});
     let mut dir: Box<dyn Command> = Box::new(DirCommand {
         path: "/".to_string(),
+        path_reader: PathReader::new(),
     });
 
-    let mut vec2: Vec<&mut dyn Command> = Vec::new();
+    let mut commands: Vec<&mut dyn Command> = Vec::new();
 
-    vec2.push(help.as_mut());
-    vec2.push(payload_printer.as_mut());
-    vec2.push(dir.as_mut());
-    vec2.push(limited.as_mut());
+    commands.push(help.as_mut());
+    commands.push(payload_printer.as_mut());
+    commands.push(dir.as_mut());
+    commands.push(limited.as_mut());
 
-
-    let mut command_reader = CommandReader::new("-".to_string(), "=".to_string(), vec2);
+    let mut command_reader = CommandReader::new("-".to_string(), "=".to_string(), commands);
 
     loop {
         let mut input = String::new();
@@ -38,7 +35,7 @@ fn main() {
         io::stdin()
             .read_line(&mut input)
             .expect("Unable to handle reponse");
-        
+
         command_reader.read(input.to_owned());
     }
 }

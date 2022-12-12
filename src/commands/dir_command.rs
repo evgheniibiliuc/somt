@@ -1,11 +1,13 @@
+
 use crate::{
-    input_command_reader::Command,
-    path_reader::{PathInfo, PathReader},
+    readers::input_command_reader::Command,
+    readers::path_reader::{PathInfo, PathReader},
 };
 
 #[derive(Debug)]
 pub struct DirCommand {
     pub path: String,
+    pub path_reader : PathReader
 }
 
 impl Command for DirCommand {
@@ -13,10 +15,9 @@ impl Command for DirCommand {
         "dir".to_string()
     }
 
-    fn apply(&self, payload: &mut Vec<PathInfo>) {
-        let mut path_reader = PathReader::new();
-        let result = path_reader.read_dir(&self.path);
-      
+    fn apply(&mut self, payload: &mut Vec<PathInfo>) {
+        let result = self.path_reader.read_dir(&self.path);
+
         payload.append(result);
     }
 

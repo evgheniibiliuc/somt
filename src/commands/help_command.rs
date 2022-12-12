@@ -1,4 +1,7 @@
-use crate::{input_command_reader::Command, path_reader::PathInfo};
+use crate::{
+    readers::input_command_reader::Command,
+    readers::path_reader::PathInfo,
+};
 
 #[derive(Debug)]
 pub struct HelpCommand {
@@ -9,7 +12,7 @@ impl Command for HelpCommand {
         "help".to_string()
     }
 
-    fn apply(&self, _payload: &mut Vec<PathInfo>) {
+    fn apply(&mut self, _payload: &mut Vec<PathInfo>) {
         println!(
             "# Basic operation: 
                       -dir=/home -limit=200 -print",

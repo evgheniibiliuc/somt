@@ -1,7 +1,8 @@
 use core::panic;
 use std::collections::HashMap;
 
-use crate::path_reader::PathInfo;
+use super::path_reader::PathInfo;
+
 
 pub struct CommandReader<'a> {
     command_mark: String,
@@ -66,7 +67,7 @@ impl<'a> CommandReader<'a> {
 pub trait Command {
     fn name(&self) -> String;
 
-    fn apply(&self, payload: &mut Vec<PathInfo>);
+    fn apply(&mut self, payload: &mut Vec<PathInfo>);
 
     fn parse_params(&mut self, params: String);
 }

@@ -1,4 +1,7 @@
-use crate::{input_command_reader::Command, path_reader::PathInfo};
+use crate::{
+    readers::input_command_reader::Command,
+    readers::path_reader::PathInfo,
+};
 
 #[derive(Debug)]
 pub struct PayloadPrinterCommand {}
@@ -8,7 +11,7 @@ impl Command for PayloadPrinterCommand {
         "print".to_string()
     }
 
-    fn apply(&self, payload: &mut Vec<PathInfo>) {
+    fn apply(&mut self, payload: &mut Vec<PathInfo>) {
         for ele in payload {
             println!("File [{}] - [{}] MB", ele.path, ele.size)
         }

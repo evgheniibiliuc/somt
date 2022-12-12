@@ -1,3 +1,4 @@
+#[derive(Debug)]
 pub struct PathReader {
     folders: Vec<PathInfo>,
 }

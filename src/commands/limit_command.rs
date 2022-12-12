@@ -1,6 +1,6 @@
 // pub mod path_reader;
 
-use crate::{input_command_reader::Command, path_reader::PathInfo};
+use crate::{readers::input_command_reader::Command, readers::path_reader::PathInfo};
 
 #[derive(Debug)]
 pub struct LimitCommand {
@@ -12,9 +12,9 @@ impl Command for LimitCommand {
         "limit".to_string()
     }
 
-    fn apply(&self, payload: &mut Vec<PathInfo>) {
+    fn apply(&mut self, payload: &mut Vec<PathInfo>) {
+        payload.sort_by(|a, b| b.size.total_cmp(&a.size));
         payload.truncate(self.limit);
-        payload.sort_by(|a, b| b.size.total_cmp(&a.size))
     }
 
     fn parse_params(&mut self, params: String) {
