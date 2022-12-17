@@ -1,4 +1,3 @@
-
 use crate::{
     readers::input_command_reader::Command,
     readers::path_reader::{PathInfo, PathReader},
@@ -7,7 +6,7 @@ use crate::{
 #[derive(Debug)]
 pub struct DirReadCommand {
     pub path: String,
-    pub path_reader : PathReader
+    pub path_reader: PathReader,
 }
 
 impl Command for DirReadCommand {
@@ -25,3 +24,21 @@ impl Command for DirReadCommand {
         self.path = params;
     }
 }
+
+#[cfg(test)]
+mod test {
+    use mockall::{mock, automock};
+
+    use super::*;
+
+    #[test]
+    fn returns_command_name() {
+        let command = DirReadCommand {
+            path: "/".to_string(),
+            path_reader: PathReader::new(),
+        };
+
+        assert_eq!("dir_read".to_string(), command.name());
+    }
+}
+

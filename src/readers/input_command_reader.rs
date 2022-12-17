@@ -1,66 +1,23 @@
-use core::panic;
-use std::collections::HashMap;
-
 use super::path_reader::PathInfo;
+pub struct CommandEvaluator {}
 
+impl<'a> CommandEvaluator {
+    pub fn evaluate(
+        &self,
+        commands_with_params: Vec<(&'a mut dyn Command, String)>,
+        payload: &mut Vec<PathInfo>,
+    ) {
+        for command_with_param in commands_with_params {
+            let command = command_with_param.0;
+            let command_args = command_with_param.1;
 
-pub struct CommandReader<'a> {
-    command_mark: &'a str,
-    value_delimeter_mark: &'a str,
-    commands: HashMap<String, &'a mut dyn Command>,
-}
-
-impl<'a> CommandReader<'a> {
-    pub fn read(&mut self, console_line: String) {
-        let mut result: Vec<PathInfo> = Vec::new();
-
-        self.evaluate_commands(console_line, &mut result);
+            command.parse_params(command_args);
+            command.apply(payload);
+        }
     }
 
-    fn evaluate_commands(&mut self, console_line: String, payload: &mut Vec<PathInfo>) {
-        console_line
-            .split(&self.command_mark.to_owned())
-            .filter(|str| !str.is_empty())
-            .map(|str| str.trim())
-            .for_each(|str| {
-                let command_params: Vec<&str> = str.split(&self.value_delimeter_mark).collect();
-
-                let command_name = match command_params.get(0) {
-                    Some(key) => key,
-                    None => panic!("Unable to parse key {:?}", command_params),
-                };
-
-                let command_val = match command_params.get(1) {
-                    Some(key) => key,
-                    None => "",
-                };
-
-                let current_command = match self.commands.get_mut(&command_name.to_string()) {
-                    Some(key) => key,
-                    None => panic!("Unable to find command for query {:?}", command_params),
-                };
-
-                current_command.parse_params(command_val.to_string());
-                current_command.apply(payload);
-            });
-    }
-
-    pub fn new(
-        command_mark: &'a str,
-        value_delimeter_mark: &'a str,
-        commands_unsorted: Vec<&'a mut dyn Command>,
-    ) -> Self {
-        let mut commands = HashMap::new();
-
-        for ele in commands_unsorted {
-            commands.insert(ele.name(), ele);
-        }
-
-        CommandReader {
-            value_delimeter_mark,
-            command_mark,
-            commands,
-        }
+    pub fn new() -> Self {
+        CommandEvaluator {}
     }
 }
 
