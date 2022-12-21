@@ -11,7 +11,7 @@ use parsers::input_command_parser::CommandParser;
 use readers::input_command_reader::{Command, CommandEvaluator};
 use readers::path_reader::PathReader;
 use std::collections::HashMap;
-use std::io::{self, Write};
+use std::io::{self};
 use validators::input_command_validator::CommandValidator;
 
 use crate::readers::path_reader::PathInfo;

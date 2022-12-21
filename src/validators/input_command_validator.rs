@@ -1,4 +1,4 @@
-use std::{collections::HashMap, marker::PhantomData};
+use std::collections::HashMap;
 
 use crate::readers::input_command_reader::Command;
 
@@ -16,7 +16,7 @@ impl CommandValidator {
             let command_name = &parsed_command.0;
 
             match commands.get(command_name) {
-                Some(cmd) => (),
+                Some(_cmd) => (),
                 None => {
                     println!("[!] Invalid command [{}]\n\r", parsed_command.0);
                     is_err_present = true;
@@ -32,6 +32,6 @@ impl CommandValidator {
     }
 
     pub fn new() -> Self {
-       return  CommandValidator {};
+        return CommandValidator {};
     }
 }

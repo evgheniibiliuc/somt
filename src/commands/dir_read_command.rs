@@ -25,20 +25,3 @@ impl Command for DirReadCommand {
     }
 }
 
-#[cfg(test)]
-mod test {
-    use mockall::{mock, automock};
-
-    use super::*;
-
-    #[test]
-    fn returns_command_name() {
-        let command = DirReadCommand {
-            path: "/".to_string(),
-            path_reader: PathReader::new(),
-        };
-
-        assert_eq!("dir_read".to_string(), command.name());
-    }
-}
-
