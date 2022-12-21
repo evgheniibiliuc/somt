@@ -1,50 +1,37 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, marker::PhantomData};
 
 use crate::readers::input_command_reader::Command;
 
-pub struct CommandValidator<'a> {
-    commands: HashMap<String, &'a dyn Command>,
-}
+pub struct CommandValidator {}
 
-impl<'a> CommandValidator<'a> {
+impl CommandValidator {
     pub fn validate(
         &self,
-        parsed_comands: &'a Vec<(String, String)>,
-    ) -> Result<Vec<(&'a dyn Command, String)>, String> {
-        let mut erros: Vec<String> = Vec::new();
-        let result: Vec<(&dyn Command, String)> = Vec::new();
+        commands: &HashMap<String, &mut dyn Command>,
+        parsed_comands: &Vec<(String, String)>,
+    ) -> Result<String, String> {
+        let mut is_err_present = false;
 
         for parsed_command in parsed_comands {
             let command_name = &parsed_command.0;
 
-            match self.commands.get(command_name) {
-                Some(cmd) => result.push((cmd, parsed_command.1)),
+            match commands.get(command_name) {
+                Some(cmd) => (),
                 None => {
-                    let err = format!("[!] Invalid command [{}]", parsed_command.0);
-
-                    erros.push(err);
+                    println!("[!] Invalid command [{}]\n\r", parsed_command.0);
+                    is_err_present = true;
                 }
             }
         }
 
-        if erros.is_empty() {
-            return Ok(result);
+        if is_err_present {
+            return Err("Failed validation".to_string());
         }
 
-        for error in erros {
-            print!("{}", error);
-        }
-
-        return Err("Failed validation".to_string());
+        return Ok("passed all checks".to_string());
     }
 
-    pub fn new(commands_unsorted: Vec<&'a dyn Command>) -> Self {
-        let mut commands = HashMap::new();
-
-        for ele in commands_unsorted {
-            commands.insert(ele.name(), ele);
-        }
-
-        CommandValidator { commands }
+    pub fn new() -> Self {
+       return  CommandValidator {};
     }
 }

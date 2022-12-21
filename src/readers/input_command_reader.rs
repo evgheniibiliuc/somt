@@ -1,18 +1,23 @@
+use std::collections::HashMap;
+
 use super::path_reader::PathInfo;
 pub struct CommandEvaluator {}
 
 impl<'a> CommandEvaluator {
     pub fn evaluate(
         &self,
-        commands_with_params: Vec<(&'a mut dyn Command, String)>,
+        parsed_commands_values: Vec<(String, String)>,
+        commands_by_name: &mut HashMap<String, &mut dyn  Command>,
         payload: &mut Vec<PathInfo>,
     ) {
-        for command_with_param in commands_with_params {
-            let command = command_with_param.0;
-            let command_args = command_with_param.1;
-
-            command.parse_params(command_args);
-            command.apply(payload);
+        for parsed_command_value in parsed_commands_values {
+            match commands_by_name.get_mut(&parsed_command_value.0) {
+                Some(cmd) => {
+                    cmd.parse_params(parsed_command_value.1);
+                    cmd.apply(payload)
+                }
+                None => todo!(),
+            }
         }
     }
 
