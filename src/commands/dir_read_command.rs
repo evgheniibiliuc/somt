@@ -1,4 +1,3 @@
-
 use crate::{
     readers::input_command_reader::Command,
     readers::path_reader::{PathInfo, PathReader},
@@ -7,7 +6,7 @@ use crate::{
 #[derive(Debug)]
 pub struct DirReadCommand {
     pub path: String,
-    pub path_reader : PathReader
+    pub path_reader: PathReader,
 }
 
 impl Command for DirReadCommand {
@@ -25,3 +24,4 @@ impl Command for DirReadCommand {
         self.path = params;
     }
 }
+
