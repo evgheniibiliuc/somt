@@ -1,11 +1,13 @@
-use crate::{
-    readers::input_command_reader::Command,
-    readers::path_reader::PathInfo,
-};
+use crate::{readers::input_command_reader::Command, readers::path_reader::PathInfo};
 
 #[derive(Debug)]
 pub struct PayloadPrinterCommand {}
 
+impl PayloadPrinterCommand {
+    pub fn new() -> Self {
+        PayloadPrinterCommand {}
+    }
+}
 impl Command for PayloadPrinterCommand {
     fn name(&self) -> String {
         "print".to_string()

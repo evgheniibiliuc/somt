@@ -9,7 +9,6 @@ use commands::limit_command::LimitCommand;
 use commands::payload_printer_command::PayloadPrinterCommand;
 use parsers::input_command_parser::CommandParser;
 use readers::input_command_reader::{Command, CommandEvaluator};
-use readers::path_reader::PathReader;
 use std::collections::HashMap;
 use std::io::{self};
 use validators::input_command_validator::CommandValidator;
@@ -19,14 +18,10 @@ use crate::readers::path_reader::PathInfo;
 
 fn main() {
     loop {
-        let mut limited: Box<dyn Command> = Box::new(LimitCommand { limit: 100 });
-        let mut help: Box<dyn Command> = Box::new(HelpCommand {});
-        let mut payload_printer: Box<dyn Command> = Box::new(PayloadPrinterCommand {});
-        let mut dir_read: Box<dyn Command> = Box::new(DirReadCommand {
-            path: "/".to_string(),
-            path_reader: PathReader::new(),
-        });
-
+        let mut limited: Box<dyn Command> = Box::new(LimitCommand::new());
+        let mut help: Box<dyn Command> = Box::new(HelpCommand::new());
+        let mut payload_printer: Box<dyn Command> = Box::new(PayloadPrinterCommand::new());
+        let mut dir_read: Box<dyn Command> = Box::new(DirReadCommand::new());
         let mut sort: Box<dyn Command> = Box::new(SortCommand::new());
 
         let mut commands: HashMap<String, &mut dyn Command> = HashMap::new();

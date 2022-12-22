@@ -5,8 +5,17 @@ use crate::{
 
 #[derive(Debug)]
 pub struct DirReadCommand {
-    pub path: String,
-    pub path_reader: PathReader,
+    path: String,
+    path_reader: PathReader,
+}
+
+impl DirReadCommand {
+    pub fn new() -> Self {
+        DirReadCommand {
+            path: "/".to_string(),
+            path_reader: PathReader::new(),
+        }
+    }
 }
 
 impl Command for DirReadCommand {
@@ -24,4 +33,3 @@ impl Command for DirReadCommand {
         self.path = params;
     }
 }
-

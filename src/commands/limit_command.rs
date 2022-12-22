@@ -7,6 +7,11 @@ pub struct LimitCommand {
     pub limit: usize,
 }
 
+impl LimitCommand {
+    pub fn new() -> Self {
+        LimitCommand { limit: 100 }
+    }
+}
 impl Command for LimitCommand {
     fn name(&self) -> String {
         "limit".to_string()
@@ -17,9 +22,9 @@ impl Command for LimitCommand {
     }
 
     fn parse_params(&mut self, params: String) {
-        self.limit = match params.parse(){
+        self.limit = match params.parse() {
             Ok(val) => val,
-            Err(_) => self.limit
+            Err(_) => self.limit,
         };
     }
 }

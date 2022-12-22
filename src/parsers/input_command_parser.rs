@@ -26,7 +26,7 @@ impl CommandParser {
             .collect()
     }
 
-    pub fn new(command_mark: String, value_delimeter_mark: String) -> Self {     
+    pub fn new(command_mark: String, value_delimeter_mark: String) -> Self {
         CommandParser {
             command_mark,
             value_delimeter_mark,
