@@ -31,7 +31,7 @@ fn main() {
         commands.insert(dir_read.name(), dir_read.as_mut());
         commands.insert(sort.name(), sort.as_mut());
 
-        let command_parser = CommandParser::new("-".to_string(), "=".to_string());
+        let command_parser = CommandParser::new(" ".to_string(), "=".to_string());
         let command_evaluator = CommandEvaluator::new();
         let command_validator = CommandValidator::new();
 
