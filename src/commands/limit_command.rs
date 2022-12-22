@@ -13,7 +13,6 @@ impl Command for LimitCommand {
     }
 
     fn apply(&mut self, payload: &mut Vec<PathInfo>) {
-        payload.sort_by(|a, b| b.size.total_cmp(&a.size));
         payload.truncate(self.limit);
     }
 

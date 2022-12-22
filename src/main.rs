@@ -14,6 +14,7 @@ use std::collections::HashMap;
 use std::io::{self};
 use validators::input_command_validator::CommandValidator;
 
+use crate::commands::sort_command::SortCommand;
 use crate::readers::path_reader::PathInfo;
 
 fn main() {
@@ -26,11 +27,14 @@ fn main() {
             path_reader: PathReader::new(),
         });
 
+        let mut sort: Box<dyn Command> = Box::new(SortCommand::new());
+
         let mut commands: HashMap<String, &mut dyn Command> = HashMap::new();
         commands.insert(limited.name(), limited.as_mut());
         commands.insert(help.name(), help.as_mut());
         commands.insert(payload_printer.name(), payload_printer.as_mut());
         commands.insert(dir_read.name(), dir_read.as_mut());
+        commands.insert(sort.name(), sort.as_mut());
 
         let command_parser = CommandParser::new("-".to_string(), "=".to_string());
         let command_evaluator = CommandEvaluator::new();
