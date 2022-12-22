@@ -16,7 +16,7 @@ impl Command for HelpCommand {
     fn apply(&mut self, _payload: &mut Vec<PathInfo>) {
         println!(
             "# Basic operation: 
-                      -dir_read=/home -limit=200 -print",
+                      -dir_read=/home -sort=desc -limit=200 -print",
         )
     }
 
