@@ -1,23 +1,26 @@
-#[derive(Debug)]
-pub struct PathReader {
-    pub folders: Vec<PathInfo>,
+use mockall::automock;
+
+#[automock]
+pub trait PathReader {
+    fn read_dir(self: &mut Self, path: &String) -> &mut Vec<PathInfo>;
 }
 
 #[derive(Debug)]
+pub struct SimpleRecursivePathReader {
+    pub folders: Vec<PathInfo>,
+}
+
+#[derive(Debug, Default)]
 pub struct PathInfo {
     pub size: f32,
     pub path: String,
 }
 
-impl PathReader {
-    pub fn new() -> PathReader {
-        PathReader {
+impl SimpleRecursivePathReader {
+    pub fn new() -> SimpleRecursivePathReader {
+        SimpleRecursivePathReader {
             folders: Vec::new(),
         }
-    }
-
-    pub fn read_dir(self: &mut Self, path: &String) -> &mut Vec<PathInfo> {
-        self._read_dir(path)
     }
 
     fn _read_dir(self: &mut Self, path: &String) -> &mut Vec<PathInfo> {
@@ -39,12 +42,21 @@ impl PathReader {
             if meta_data.is_dir() {
                 self._read_dir(&path);
             } else {
-                let size = meta_data.len() as f32 / 1000000 as f32;
+                let size_in_mb = meta_data.len() as f32 / 1000000 as f32;
 
-                self.folders.push(PathInfo { size, path });
+                self.folders.push(PathInfo {
+                    size: size_in_mb,
+                    path,
+                });
             }
         }
 
         return &mut self.folders;
+    }
+}
+
+impl PathReader for SimpleRecursivePathReader {
+    fn read_dir(self: &mut Self, path: &String) -> &mut Vec<PathInfo> {
+        self._read_dir(path)
     }
 }
