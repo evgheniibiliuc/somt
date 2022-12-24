@@ -7,6 +7,7 @@ limit - number of rows printed
 print - print rows
 help - shows basic comand
 sort - sorts by file size (asc/desc)
+ends_with - name slice that file should end with
 ```
 
 ### Query example :

@@ -13,6 +13,7 @@ use std::collections::HashMap;
 use std::io::{self};
 use validators::input_command_validator::CommandValidator;
 
+use crate::commands::ends_with_command::EndsWithCommand;
 use crate::commands::sort_command::SortCommand;
 use crate::readers::path_reader::PathInfo;
 
@@ -23,13 +24,15 @@ fn main() {
         let mut payload_printer: Box<dyn Command> = Box::new(PayloadPrinterCommand::new());
         let mut dir_read: Box<dyn Command> = Box::new(DirReadCommand::new());
         let mut sort: Box<dyn Command> = Box::new(SortCommand::new());
-
+        let mut file_extension: Box<dyn Command> = Box::new(EndsWithCommand::new());
         let mut commands: HashMap<String, &mut dyn Command> = HashMap::new();
+
         commands.insert(limited.name(), limited.as_mut());
         commands.insert(help.name(), help.as_mut());
         commands.insert(payload_printer.name(), payload_printer.as_mut());
         commands.insert(dir_read.name(), dir_read.as_mut());
         commands.insert(sort.name(), sort.as_mut());
+        commands.insert(file_extension.name(), file_extension.as_mut());
 
         let command_parser = CommandParser::new(" ".to_string(), "=".to_string());
         let command_evaluator = CommandEvaluator::new();
