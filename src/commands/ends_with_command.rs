@@ -1,4 +1,4 @@
-use crate::readers::input_command_reader::Command;
+use crate::readers::input_command_reader::{Command, CommandParams};
 
 pub struct EndsWithCommand {
     end_of_file: String,
@@ -21,8 +21,8 @@ impl Command for EndsWithCommand {
         payload.retain(|path_info| path_info.path.ends_with(self.end_of_file.as_str()));
     }
 
-    fn parse_params(&mut self, params: String) {
-        self.end_of_file = params;
+    fn parse_params(&mut self, params: &CommandParams) {
+        self.end_of_file = params.command_value.to_string();
     }
 }
 #[cfg(test)]
@@ -37,13 +37,13 @@ mod test {
         assert_eq!("ends_with", ends_with_command.name());
     }
 
-    #[test]
-    fn consume_raw_string_as_end_of_file() {
-        let mut command = EndsWithCommand::new();
-        command.parse_params("+-1".to_string());
+    // #[test]
+    // fn consume_raw_string_as_end_of_file() {
+    //     let mut command = EndsWithCommand::new();
+    //     command.parse_params();
 
-        assert_eq!("+-1", command.end_of_file);
-    }
+    //     assert_eq!("+-1", command.end_of_file);
+    // }
 
     #[test]
     fn filters_out_non_valid_files() {

@@ -1,4 +1,4 @@
-use crate::{readers::input_command_reader::Command, readers::path_reader::PathInfo};
+use crate::{readers::input_command_reader::Command, readers::{path_reader::PathInfo, input_command_reader::CommandParams}};
 
 #[derive(Debug)]
 pub struct HelpCommand {}
@@ -20,7 +20,7 @@ impl Command for HelpCommand {
         )
     }
 
-    fn parse_params(&mut self, _params: String) {}
+    fn parse_params(&mut self, _params: &CommandParams) {}
 }
 
 #[cfg(test)]

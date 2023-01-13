@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use crate::readers::input_command_reader::Command;
+use crate::readers::input_command_reader::{Command, CommandParams};
 
 pub struct CommandValidator {}
 
@@ -8,17 +8,15 @@ impl CommandValidator {
     pub fn validate(
         &self,
         commands: &HashMap<String, &mut dyn Command>,
-        parsed_comands: &Vec<(String, String)>,
+        parsed_comands: &HashMap<String, CommandParams>,
     ) -> Result<String, String> {
         let mut is_err_present = false;
 
-        for parsed_command in parsed_comands {
-            let command_name = &parsed_command.0;
-
+        for (command_name, command_params) in parsed_comands {
             match commands.get(command_name) {
                 Some(_cmd) => (),
                 None => {
-                    println!("[!] Invalid command [{}]\n\r", parsed_command.0);
+                    println!("[!] Invalid command [{}]\n\r", command_name);
                     is_err_present = true;
                 }
             }

@@ -6,14 +6,14 @@ pub struct CommandEvaluator {}
 impl<'a> CommandEvaluator {
     pub fn evaluate(
         &self,
-        parsed_commands_values: Vec<(String, String)>,
-        commands_by_name: &mut HashMap<String, &mut dyn  Command>,
+        parsed_commands_values: &HashMap<String, CommandParams>,
+        commands_by_name: &mut HashMap<String, &mut dyn Command>,
         payload: &mut Vec<PathInfo>,
     ) {
-        for parsed_command_value in parsed_commands_values {
-            match commands_by_name.get_mut(&parsed_command_value.0) {
+        for (command_name, command_params) in parsed_commands_values {
+            match commands_by_name.get_mut(command_name) {
                 Some(cmd) => {
-                    cmd.parse_params(parsed_command_value.1);
+                    cmd.parse_params(command_params);
                     cmd.apply(payload)
                 }
                 None => todo!(),
@@ -31,7 +31,28 @@ pub trait Command {
 
     fn apply(&mut self, payload: &mut Vec<PathInfo>);
 
-    fn parse_params(&mut self, params: String);
+    fn parse_params(&mut self, params: &CommandParams);
+}
+
+#[derive(Debug)]
+pub struct CommandParams {
+    pub command_value: String,
+    pub command_options: Vec<CommandOption>,
+}
+
+#[derive(Debug)]
+pub struct CommandOption {
+    pub name: String,
+    pub value: String,
+}
+
+impl CommandParams {
+    pub fn new(command_value: &str, command_options: Vec<CommandOption>) -> Self {
+        CommandParams {
+            command_value: command_value.to_string(),
+            command_options,
+        }
+    }
 }
 
 impl std::fmt::Debug for dyn Command {
