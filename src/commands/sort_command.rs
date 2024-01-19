@@ -20,10 +20,8 @@ impl Command for SortCommand {
     }
 
     fn parse_params(&mut self, params: &CommandParams) {
-        self.sort = match Sort::from_str(&params.command_value) {
-            Ok(val) => val,
-            Err(err) => err,
-        }
+        self.sort = Sort::from_str(&params.command_value)
+            .unwrap_or_else(|err| err)
     }
 }
 impl SortCommand {

@@ -1,6 +1,4 @@
-use std::collections::HashMap;
-
-use crate::readers::input_command_reader::{CommandOption, CommandParams};
+use crate::readers::input_command_reader::CommandParams;
 
 pub struct CommandParser {
     command_delimeter_mark: String,
@@ -9,9 +7,8 @@ pub struct CommandParser {
 }
 
 impl CommandParser {
-    pub fn parse(&self, console_line: String) -> HashMap<String, CommandParams> {
-        let mut result: HashMap<String, CommandParams> = HashMap::new();
-        let mut latest_command: String = String::new();
+    pub fn parse(&self, console_line: String) -> Vec<(String, CommandParams)> {
+        let mut result: Vec<(String, CommandParams)> = Vec::new();
 
         let commands_and_values: Vec<&str> =
             console_line.split(&self.command_delimeter_mark).collect();
@@ -32,33 +29,12 @@ impl CommandParser {
                 None => "",
             };
 
-            println!(
-                "Command name : [{}] and value [{}]",
-                command_name, command_val
-            );
-
-            if self.is_command_option(command_and_value) {
-                let command_params = result.get_mut(&latest_command);
-
-                match command_params {
-                    Some(command_param) => command_param.command_options.push(CommandOption {
-                        name: command_name.replace(&self.command_options_mark, ""),
-                        value: command_val.to_string(),
-                    }),
-                    None => println!("[!] Unable to find command [{:?}]", command_and_value),
-                }
-            } else {
-                latest_command = command_name.to_string();
-
-                result.insert(
-                    command_name.to_string(),
-                    CommandParams {
-                        command_value: command_val.to_string(),
-                        command_options: Vec::new(),
-                    },
-                );
-            }
+            result.push((command_name.to_string(), CommandParams {
+                command_value: command_val.to_string(),
+                command_options: Vec::new(),
+            }));
         }
+
 
         result
     }

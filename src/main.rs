@@ -1,7 +1,5 @@
-mod commands;
-mod parsers;
-mod readers;
-mod validators;
+use std::collections::HashMap;
+use std::io::{self};
 
 use commands::dir_read_command::DirReadCommand;
 use commands::help_command::HelpCommand;
@@ -9,14 +7,18 @@ use commands::limit_command::LimitCommand;
 use commands::payload_printer_command::PayloadPrinterCommand;
 use parsers::input_command_parser::CommandParser;
 use readers::input_command_reader::{Command, CommandEvaluator};
-use std::collections::HashMap;
-use std::io::{self};
 use validators::input_command_validator::CommandValidator;
 
 use crate::commands::ends_with_command::EndsWithCommand;
 use crate::commands::find_file_command::FindFileCommand;
+use crate::commands::grouped_command::GroupCommand;
 use crate::commands::sort_command::SortCommand;
 use crate::readers::path_reader::PathInfo;
+
+mod commands;
+mod parsers;
+mod readers;
+mod validators;
 
 fn main() {
     loop {
@@ -27,6 +29,7 @@ fn main() {
         let mut sort: Box<dyn Command> = Box::new(SortCommand::new());
         let mut file_extension: Box<dyn Command> = Box::new(EndsWithCommand::new());
         let mut find_file: Box<dyn Command> = Box::new(FindFileCommand::new());
+        let mut grouped: Box<dyn Command> = Box::new(GroupCommand::new());
 
         let mut commands: HashMap<String, &mut dyn Command> = HashMap::new();
         commands.insert(limited.name(), limited.as_mut());
@@ -36,6 +39,7 @@ fn main() {
         commands.insert(sort.name(), sort.as_mut());
         commands.insert(file_extension.name(), file_extension.as_mut());
         commands.insert(find_file.name(), find_file.as_mut());
+        commands.insert(grouped.name(), grouped.as_mut());
 
         let command_parser = CommandParser::new(" ", "--", "=");
         let command_evaluator = CommandEvaluator::new();
@@ -48,7 +52,7 @@ fn main() {
 
         io::stdin()
             .read_line(&mut input)
-            .expect("Unable to handle reponse");
+            .expect("Unable to handle response");
 
         let parsed_commands = command_parser.parse(input.to_owned());
         println!("{:?}", parsed_commands);

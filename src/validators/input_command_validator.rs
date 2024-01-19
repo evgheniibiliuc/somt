@@ -8,7 +8,7 @@ impl CommandValidator {
     pub fn validate(
         &self,
         commands: &HashMap<String, &mut dyn Command>,
-        parsed_comands: &HashMap<String, CommandParams>,
+        parsed_comands: &Vec<(String, CommandParams)>,
     ) -> Result<String, String> {
         let mut is_err_present = false;
 
