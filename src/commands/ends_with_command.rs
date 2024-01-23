@@ -37,31 +37,14 @@ mod test {
         assert_eq!("ends_with", ends_with_command.name());
     }
 
-    // #[test]
-    // fn consume_raw_string_as_end_of_file() {
-    //     let mut command = EndsWithCommand::new();
-    //     command.parse_params();
-
-    //     assert_eq!("+-1", command.end_of_file);
-    // }
-
     #[test]
     fn filters_out_non_valid_files() {
         let mut command = EndsWithCommand::new();
         command.end_of_file = ".iso".to_string();
         let mut payload: Vec<PathInfo> = vec![
-            PathInfo {
-                size: 20.1,
-                path: "game.exe".to_string(),
-            },
-            PathInfo {
-                size: 2220.51,
-                path: "book.pdf".to_string(),
-            },
-            PathInfo {
-                size: 72.0,
-                path: "av.iso".to_string(),
-            },
+            PathInfo::new(20.1, "game.exe"),
+            PathInfo::new(2220.51, "book.pdf"),
+            PathInfo::new(72.0, "av.iso"),
         ];
 
         command.apply(&mut payload);

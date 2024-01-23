@@ -30,6 +30,8 @@ impl SortCommand {
     }
 }
 impl FromStr for Sort {
+    type Err = Sort;
+
     fn from_str(input: &str) -> Result<Sort, Self::Err> {
         match input {
             "desc" => Ok(Sort::DESC),
@@ -37,8 +39,6 @@ impl FromStr for Sort {
             _ => Err(Sort::ASC),
         }
     }
-
-    type Err = Sort;
 }
 
 #[derive(Debug, PartialEq)]
@@ -60,24 +60,6 @@ mod tests {
         let sort_command = SortCommand::new();
         assert_eq!("sort", sort_command.name());
     }
-
-    // #[test]
-    // fn parses_sort_param_no_err() {
-    //     let mut sort_command = SortCommand::new();
-
-    //     sort_command.parse_params("desc".to_string());
-
-    //     assert_eq!(Sort::DESC, sort_command.sort);
-    // }
-
-    // #[test]
-    // fn parses_sort_param_gets_asc_if_err() {
-    //     let mut sort_command = SortCommand::new();
-
-    //     sort_command.parse_params("qqdescqq".to_string());
-
-    //     assert_eq!(Sort::ASC, sort_command.sort);
-    // }
 
     #[test]
     fn sorts_by_file_size_desc() {
@@ -124,12 +106,10 @@ mod tests {
     fn fill_path_info(index: usize, size: f32, path: &str, paths: &mut Vec<PathInfo>) {
         paths.insert(
             index,
-            PathInfo {
-                size,
-                path: path.to_string(),
-            },
+            PathInfo::new(size, path),
         );
     }
+
     fn assert_path_info(index: usize, size: f32, path: &str, paths: &mut Vec<PathInfo>) {
         match paths.get(index) {
             Some(path_info) => {

@@ -44,14 +44,6 @@ mod tests {
         assert_eq!("dir_read", dir_read_cmd.name());
     }
 
-    // #[test]
-    // fn parses_path_argument() {
-    //     let mut dir_read_cmd = DirReadCommand::new();
-    //     dir_read_cmd.parse_params();
-
-    //     assert_eq!("/home", dir_read_cmd.path);
-    // }
-
     #[test]
     fn returns_available_paths() {
         let mut mock_reader = Box::new(MockPathReader::new());
@@ -59,10 +51,7 @@ mod tests {
             let mut path_infos: Vec<PathInfo> = Vec::new();
             path_infos.insert(
                 0,
-                PathInfo {
-                    size: 10.1,
-                    path: "/home".to_string(),
-                },
+                PathInfo::new(10.1, "/home")
             );
             path_infos
         });

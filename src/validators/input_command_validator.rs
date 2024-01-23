@@ -12,7 +12,7 @@ impl CommandValidator {
     ) -> Result<String, String> {
         let mut is_err_present = false;
 
-        for (command_name, command_params) in parsed_comands {
+        for (command_name, _command_params) in parsed_comands {
             match commands.get(command_name) {
                 Some(_cmd) => (),
                 None => {

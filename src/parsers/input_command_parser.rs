@@ -2,7 +2,7 @@ use crate::readers::input_command_reader::CommandParams;
 
 pub struct CommandParser {
     command_delimeter_mark: String,
-    command_options_mark: String,
+    _command_options_mark: String,
     value_delimeter_mark: String,
 }
 
@@ -39,8 +39,8 @@ impl CommandParser {
         result
     }
 
-    pub fn is_command_option(&self, command: &str) -> bool {
-        command.starts_with(&self.command_options_mark)
+    pub fn _is_command_option(&self, command: &str) -> bool {
+        command.starts_with(&self._command_options_mark)
     }
 
     pub fn new(
@@ -51,7 +51,7 @@ impl CommandParser {
         CommandParser {
             command_delimeter_mark: command_delimeter_mark.to_string(),
             value_delimeter_mark: value_delimeter_mark.to_string(),
-            command_options_mark: command_options_mark.to_string(),
+            _command_options_mark: command_options_mark.to_string(),
         }
     }
 }

@@ -47,7 +47,7 @@ pub struct CommandOption {
 }
 
 impl CommandParams {
-    pub fn new(command_value: &str, command_options: Vec<CommandOption>) -> Self {
+    pub fn _new(command_value: &str, command_options: Vec<CommandOption>) -> Self {
         CommandParams {
             command_value: command_value.to_string(),
             command_options,

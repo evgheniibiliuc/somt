@@ -1,5 +1,7 @@
 use mockall::automock;
 
+use crate::readers::path_reader::PathType::FILE;
+
 #[automock]
 pub trait PathReader {
     fn read_dir(self: &mut Self, path: &String) -> &mut Vec<PathInfo>;
@@ -10,10 +12,37 @@ pub struct SimpleRecursivePathReader {
     pub folders: Vec<PathInfo>,
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug)]
 pub struct PathInfo {
     pub size: f32,
     pub path: String,
+    pub path_type: PathType,
+}
+
+impl PathInfo {
+    pub fn new(size: f32, path: &str) -> PathInfo {
+        PathInfo {
+            size,
+            path: path.to_string(),
+            ..Default::default()
+        }
+    }
+}
+
+impl Default for PathInfo {
+    fn default() -> Self {
+        PathInfo {
+            size: 0.0,
+            path: "/".to_string(),
+            path_type: FILE,
+        }
+    }
+}
+
+#[derive(Debug, PartialEq)]
+pub enum PathType {
+    FILE,
+    FOLDER,
 }
 
 impl SimpleRecursivePathReader {
@@ -42,12 +71,9 @@ impl SimpleRecursivePathReader {
             if meta_data.is_dir() {
                 self._read_dir(&path);
             } else {
-                let size_in_mb = meta_data.len() as f32 / 1000000 as f32;
+                let size_in_mb = meta_data.len() as f32 / 1000000f32;
 
-                self.folders.push(PathInfo {
-                    size: size_in_mb,
-                    path,
-                });
+                self.folders.push(PathInfo::new(size_in_mb, path.as_str()));
             }
         }
 

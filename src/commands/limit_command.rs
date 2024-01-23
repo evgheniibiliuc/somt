@@ -40,23 +40,6 @@ mod tests {
         assert_eq!("limit", limit_command.name());
     }
 
-    // #[test]
-    // fn parsers_limit_param_no_err() {
-    //     let mut limit_command = LimitCommand::new();
-    //     limit_command.parse_params();
-
-    //     assert_eq!(30, limit_command.limit);
-    // }
-
-    // #[test]
-    // fn pareses_limit_param_gets_default_if_err() {
-    //     let mut limit_command = LimitCommand::new();
-    //     limit_command.parse_params();
-
-    //     assert_eq!(100, limit_command.limit);
-    // }
-
-
     #[test]
     fn truncates_payloads_size_to_limit() {
         let mut limit_command = LimitCommand::new();

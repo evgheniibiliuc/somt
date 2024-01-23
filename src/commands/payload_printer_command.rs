@@ -8,6 +8,7 @@ impl PayloadPrinterCommand {
         PayloadPrinterCommand {}
     }
 }
+
 impl Command for PayloadPrinterCommand {
     fn name(&self) -> String {
         "print".to_string()
@@ -15,7 +16,7 @@ impl Command for PayloadPrinterCommand {
 
     fn apply(&mut self, payload: &mut Vec<PathInfo>) {
         for ele in payload {
-            println!("File [{}] - [{}] MB", ele.path, ele.size)
+            println!("[{:?}] [{}] - [{}] MB", ele.path_type, ele.path, ele.size)
         }
     }
 
@@ -33,6 +34,7 @@ mod tests {
         let printer = PayloadPrinterCommand::new();
         assert_eq!("print", printer.name());
     }
+
     #[test]
     fn doesnt_mutate_payload() {
         let mut printer = PayloadPrinterCommand::new();

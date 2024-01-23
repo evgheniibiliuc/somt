@@ -8,10 +8,11 @@ print - print rows
 help - shows basic comand
 sort - sorts by file size (asc/desc)
 ends_with - name slice that file should end with
+grouped - returns grouped list by FILE & FOLDER type
 ```
 
 ### Query example :
-`dir_read=/IdeaProjects/somt sort=desc limit=10 print`
+`dir_read=/IdeaProjects/somt grouped sort=desc limit=10 print`
 
 #### Result:
 ```

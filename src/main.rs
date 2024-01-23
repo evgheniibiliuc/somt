@@ -55,7 +55,6 @@ fn main() {
             .expect("Unable to handle response");
 
         let parsed_commands = command_parser.parse(input.to_owned());
-        println!("{:?}", parsed_commands);
         match command_validator.validate(&commands, &parsed_commands) {
             Ok(_) => command_evaluator.evaluate(&parsed_commands, &mut commands, payload.as_mut()),
             Err(_) => println!("Please fix issues mentioned above"),
