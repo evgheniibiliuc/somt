@@ -1,4 +1,4 @@
-use crate::readers::input_command_reader::CommandParams;
+use crate::readers::input_command_reader::{CommandOption, CommandParams};
 
 pub struct CommandParser {
     command_delimeter_mark: String,
@@ -14,6 +14,31 @@ impl CommandParser {
             console_line.split(&self.command_delimeter_mark).collect();
 
         for command_and_value in commands_and_values {
+            if self.is_command_option(command_and_value) {
+                let command_options = command_and_value.split(&self.value_delimeter_mark).collect::<Vec<&str>>();
+                match result.last_mut() {
+                    None => {}
+                    Some(name_command) => {
+                        let command_name = command_options.get(0)
+                            .map(|full_option_name| {
+                                full_option_name.replace(&self._command_options_mark, "").trim().to_string()
+                            })
+                            .expect("Unable to parse option name");
+                        let command_val = command_options.get(1)
+                            .unwrap_or(&"")
+                            .trim()
+                            .to_string();
+
+                        name_command.1.command_options
+                            .push(CommandOption {
+                                name: command_name,
+                                value: command_val,
+                            });
+                    }
+                };
+                continue;
+            }
+
             let param_value_list: Vec<&str> = command_and_value
                 .split(&self.value_delimeter_mark)
                 .filter(|str| !str.is_empty())
@@ -39,7 +64,7 @@ impl CommandParser {
         result
     }
 
-    pub fn _is_command_option(&self, command: &str) -> bool {
+    pub fn is_command_option(&self, command: &str) -> bool {
         command.starts_with(&self._command_options_mark)
     }
 
