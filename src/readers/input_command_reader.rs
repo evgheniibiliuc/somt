@@ -32,18 +32,22 @@ pub trait Command {
     fn apply(&mut self, payload: &mut Vec<PathInfo>);
 
     fn parse_params(&mut self, params: &CommandParams);
-}
 
-#[derive(Debug)]
-pub struct CommandParams {
-    pub command_value: String,
-    pub command_options: Vec<CommandOption>,
+    fn get_option_keys(&self) -> Vec<String> {
+        vec![]
+    }
 }
 
 #[derive(Debug)]
 pub struct CommandOption {
     pub name: String,
     pub value: String,
+}
+
+#[derive(Debug)]
+pub struct CommandParams {
+    pub command_value: String,
+    pub command_options: Vec<CommandOption>,
 }
 
 impl CommandParams {

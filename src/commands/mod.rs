@@ -6,3 +6,4 @@ pub mod sort_command;
 pub mod ends_with_command;
 pub mod find_file_command;
 pub mod grouped_command;
+pub mod largest_command;

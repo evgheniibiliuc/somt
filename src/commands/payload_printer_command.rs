@@ -1,3 +1,4 @@
+use mockall::automock;
 use crate::{readers::input_command_reader::Command, readers::{path_reader::PathInfo, input_command_reader::CommandParams}};
 
 #[derive(Debug)]
@@ -9,6 +10,7 @@ impl PayloadPrinterCommand {
     }
 }
 
+#[automock]
 impl Command for PayloadPrinterCommand {
     fn name(&self) -> String {
         "print".to_string()

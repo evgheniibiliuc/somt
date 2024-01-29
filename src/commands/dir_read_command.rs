@@ -1,13 +1,16 @@
+use mockall::automock;
 use crate::{
     readers::input_command_reader::Command,
     readers::{path_reader::{PathInfo, PathReader, SimpleRecursivePathReader}, input_command_reader::CommandParams},
 };
 
+
 pub struct DirReadCommand {
-    path: String,
+    pub path: String,
     path_reader: Box<dyn PathReader>,
 }
 
+#[automock]
 impl DirReadCommand {
     pub fn new() -> Self {
         DirReadCommand {

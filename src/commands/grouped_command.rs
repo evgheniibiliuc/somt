@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use mockall::automock;
 
 use crate::readers::input_command_reader::{Command, CommandParams};
 use crate::readers::path_reader::{PathInfo, PathType};
@@ -9,6 +10,7 @@ pub struct GroupCommand {
     line_separator: char,
 }
 
+#[automock]
 impl Command for GroupCommand {
     fn name(&self) -> String {
         "grouped".to_string()
@@ -95,7 +97,7 @@ mod test {
 
         group_command.apply(&mut payload);
 
-        let mut result: HashMap<String, &PathInfo> = payload.iter().map(|path_info: &PathInfo| (path_info.path.to_string(), path_info)).collect();
+        let result: HashMap<String, &PathInfo> = payload.iter().map(|path_info: &PathInfo| (path_info.path.to_string(), path_info)).collect();
 
         let file_one = result.get(&"/d/test/files/file_one".to_string()).unwrap();
         let file_two = result.get(&"/d/test/files/file_two".to_string()).unwrap();

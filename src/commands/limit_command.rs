@@ -1,5 +1,6 @@
 // pub mod path_reader;
 
+use mockall::automock;
 use crate::{readers::input_command_reader::Command, readers::{path_reader::PathInfo, input_command_reader::CommandParams}};
 
 #[derive(Debug)]
@@ -7,18 +8,23 @@ pub struct LimitCommand {
     pub limit: usize,
 }
 
+
 impl LimitCommand {
     pub fn new() -> Self {
-        LimitCommand { limit: 100 }
+        LimitCommand { limit: 0 }
     }
 }
+
+#[automock]
 impl Command for LimitCommand {
     fn name(&self) -> String {
         "limit".to_string()
     }
 
     fn apply(&mut self, payload: &mut Vec<PathInfo>) {
-        payload.truncate(self.limit);
+        if self.limit != 0 {
+            payload.truncate(self.limit);
+        }
     }
 
     fn parse_params(&mut self, params: &CommandParams) {

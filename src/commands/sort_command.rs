@@ -1,12 +1,15 @@
 use std::str::FromStr;
+use mockall::automock;
 
 use crate::{readers::input_command_reader::Command, readers::{path_reader::PathInfo, input_command_reader::CommandParams}};
+use crate::commands::sort_command::Sort::DESC;
 
 #[derive(Debug)]
 pub struct SortCommand {
     sort: Sort,
 }
 
+#[automock]
 impl Command for SortCommand {
     fn name(&self) -> String {
         "sort".to_string()
@@ -24,11 +27,19 @@ impl Command for SortCommand {
             .unwrap_or_else(|err| err)
     }
 }
+
 impl SortCommand {
     pub fn new() -> Self {
         SortCommand { sort: Sort::ASC }
     }
+
+    pub fn desc() -> Self {
+        SortCommand {
+            sort: DESC
+        }
+    }
 }
+
 impl FromStr for Sort {
     type Err = Sort;
 

@@ -12,6 +12,7 @@ use validators::input_command_validator::CommandValidator;
 use crate::commands::ends_with_command::EndsWithCommand;
 use crate::commands::find_file_command::FindFileCommand;
 use crate::commands::grouped_command::GroupCommand;
+use crate::commands::largest_command::LargestCommand;
 use crate::commands::sort_command::SortCommand;
 use crate::readers::path_reader::PathInfo;
 
@@ -30,6 +31,8 @@ fn main() {
         let mut file_extension: Box<dyn Command> = Box::new(EndsWithCommand::new());
         let mut find_file: Box<dyn Command> = Box::new(FindFileCommand::new());
         let mut grouped: Box<dyn Command> = Box::new(GroupCommand::new());
+        let mut largest: Box<dyn Command> = Box::new(LargestCommand::new());
+
 
         let mut commands: HashMap<String, &mut dyn Command> = HashMap::new();
         commands.insert(limited.name(), limited.as_mut());
@@ -40,6 +43,7 @@ fn main() {
         commands.insert(file_extension.name(), file_extension.as_mut());
         commands.insert(find_file.name(), find_file.as_mut());
         commands.insert(grouped.name(), grouped.as_mut());
+        commands.insert(largest.name(), largest.as_mut());
 
         let command_parser = CommandParser::new(" ", "--", "=");
         let command_evaluator = CommandEvaluator::new();

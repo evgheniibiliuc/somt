@@ -27,6 +27,14 @@ impl PathInfo {
             ..Default::default()
         }
     }
+
+    pub fn copy(&self) -> PathInfo {
+        PathInfo {
+            size: self.size,
+            path: self.path.to_string(),
+            path_type: self.path_type,
+        }
+    }
 }
 
 impl Default for PathInfo {
@@ -39,7 +47,8 @@ impl Default for PathInfo {
     }
 }
 
-#[derive(Debug, PartialEq)]
+
+#[derive(Debug, PartialEq, Copy, Clone)]
 pub enum PathType {
     FILE,
     FOLDER,

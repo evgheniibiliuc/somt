@@ -9,6 +9,9 @@ help - shows basic comand
 sort - sorts by file size (asc/desc)
 ends_with - name slice that file should end with
 grouped - returns grouped list by FILE & FOLDER type
+largest - composed shortcut command for retrieving FILE/FOLDER from specific location.
+          options: --location, --limit
+          example: largest=folder --location=/home --limit=10
 ```
 
 ### Query example :
