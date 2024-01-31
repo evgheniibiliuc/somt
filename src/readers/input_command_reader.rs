@@ -7,7 +7,7 @@ impl<'a> CommandEvaluator {
     pub fn evaluate(
         &self,
         parsed_commands_values: &Vec<(String, CommandParams)>,
-        commands_by_name: &mut HashMap<String, &mut dyn Command>,
+        commands_by_name: &mut HashMap<String, Box<dyn Command>>,
         payload: &mut Vec<PathInfo>,
     ) {
         for (command_name, command_params) in parsed_commands_values {

@@ -1,7 +1,8 @@
 # SOMT - Simple File Management Tool
 
-## Avalable commands : 
+## Available commands : 
 ```
+Simple commands:
 dir_read - files look up location
 limit - number of rows printed
 print - print rows
@@ -9,6 +10,8 @@ help - shows basic comand
 sort - sorts by file size (asc/desc)
 ends_with - name slice that file should end with
 grouped - returns grouped list by FILE & FOLDER type
+--------------------------------------------------------------------------------------
+Composed commands:
 largest - composed shortcut command for retrieving FILE/FOLDER from specific location.
           options: --location, --limit
           example: largest=folder --location=/home --limit=10
