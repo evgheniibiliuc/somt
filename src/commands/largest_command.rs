@@ -4,7 +4,7 @@ use crate::commands::dir_read_command::DirReadCommand;
 use crate::commands::grouped_command::GroupCommand;
 use crate::commands::largest_command::Type::{FILE, FOLDER};
 use crate::commands::limit_command::LimitCommand;
-use crate::commands::payload_printer_command::PayloadPrinterCommand;
+use crate::commands::print_command::PrintCommand;
 use crate::commands::sort_command::SortCommand;
 use crate::readers::input_command_reader::{Command, CommandParams};
 use crate::readers::path_reader::{PathInfo, PathType};
@@ -15,7 +15,7 @@ pub struct LargestCommand {
     sort_command: SortCommand,
     limit_command: LimitCommand,
     grouped_command: GroupCommand,
-    print_command: PayloadPrinterCommand,
+    print_command: PrintCommand,
 }
 
 
@@ -27,7 +27,7 @@ impl LargestCommand {
             sort_command: SortCommand::desc(),
             limit_command: LimitCommand::new(),
             grouped_command: GroupCommand::new(),
-            print_command: PayloadPrinterCommand::new(),
+            print_command: PrintCommand::new(),
         }
     }
 }

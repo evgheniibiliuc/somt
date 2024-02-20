@@ -7,7 +7,7 @@ use crate::commands::grouped_command::GroupCommand;
 use crate::commands::help_command::HelpCommand;
 use crate::commands::largest_command::LargestCommand;
 use crate::commands::limit_command::LimitCommand;
-use crate::commands::payload_printer_command::PayloadPrinterCommand;
+use crate::commands::print_command::PrintCommand;
 use crate::commands::sort_command::SortCommand;
 use crate::readers::input_command_reader::Command;
 
@@ -17,7 +17,7 @@ impl CommandProvider {
     pub fn get_available_commands() -> HashMap<String, Box<dyn Command>> {
         let limited: Box<dyn Command> = Box::new(LimitCommand::new());
         let help: Box<dyn Command> = Box::new(HelpCommand::new());
-        let payload_printer: Box<dyn Command> = Box::new(PayloadPrinterCommand::new());
+        let payload_printer: Box<dyn Command> = Box::new(PrintCommand::new());
         let dir_read: Box<dyn Command> = Box::new(DirReadCommand::new());
         let sort: Box<dyn Command> = Box::new(SortCommand::new());
         let file_extension: Box<dyn Command> = Box::new(EndsWithCommand::new());
@@ -26,7 +26,7 @@ impl CommandProvider {
         let largest: Box<dyn Command> = Box::new(LargestCommand::new());
 
         let mut commands: HashMap<String, Box<dyn Command>> = HashMap::new();
-        commands.insert(limited.name(), Box::new(LimitCommand::new()));
+        commands.insert(limited.name(), limited);
         commands.insert(help.name(), help);
         commands.insert(payload_printer.name(), payload_printer);
         commands.insert(dir_read.name(), dir_read);

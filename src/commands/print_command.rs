@@ -2,16 +2,16 @@ use mockall::automock;
 use crate::{readers::input_command_reader::Command, readers::{path_reader::PathInfo, input_command_reader::CommandParams}};
 
 #[derive(Debug)]
-pub struct PayloadPrinterCommand {}
+pub struct PrintCommand {}
 
-impl PayloadPrinterCommand {
+impl PrintCommand {
     pub fn new() -> Self {
-        PayloadPrinterCommand {}
+        PrintCommand {}
     }
 }
 
 #[automock]
-impl Command for PayloadPrinterCommand {
+impl Command for PrintCommand {
     fn name(&self) -> String {
         "print".to_string()
     }
@@ -29,17 +29,17 @@ impl Command for PayloadPrinterCommand {
 mod tests {
     use crate::readers::{input_command_reader::Command, path_reader::PathInfo};
 
-    use super::PayloadPrinterCommand;
+    use super::PrintCommand;
 
     #[test]
     fn returns_print_as_command_id() {
-        let printer = PayloadPrinterCommand::new();
+        let printer = PrintCommand::new();
         assert_eq!("print", printer.name());
     }
 
     #[test]
     fn doesnt_mutate_payload() {
-        let mut printer = PayloadPrinterCommand::new();
+        let mut printer = PrintCommand::new();
         let mut payload: Vec<PathInfo> = Vec::new();
         printer.apply(&mut payload);
 
