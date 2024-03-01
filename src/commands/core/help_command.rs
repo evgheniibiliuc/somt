@@ -1,4 +1,6 @@
-use crate::{readers::input_command_reader::Command, readers::{path_reader::PathInfo, input_command_reader::CommandParams}};
+use crate::commands::main::Command;
+use crate::commands::main::CommandParams;
+use crate::readers::path_reader::PathInfo;
 
 #[derive(Debug)]
 pub struct HelpCommand {}

@@ -1,5 +1,5 @@
+use crate::commands::main::{Command, CommandParams};
 use crate::readers::{
-    input_command_reader::{Command, CommandParams},
     path_reader::{PathReader, SimpleRecursivePathReader},
 };
 

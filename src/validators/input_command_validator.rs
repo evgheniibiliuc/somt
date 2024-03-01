@@ -1,6 +1,6 @@
 use std::collections::HashMap;
+use crate::commands::main::{Command, CommandParams};
 
-use crate::readers::input_command_reader::{Command, CommandParams};
 
 pub struct CommandValidator {}
 

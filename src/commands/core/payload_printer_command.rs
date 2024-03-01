@@ -1,5 +1,7 @@
 use mockall::automock;
-use crate::{readers::input_command_reader::Command, readers::{path_reader::PathInfo, input_command_reader::CommandParams}};
+use crate::commands::main::{Command, CommandParams};
+use crate::readers::path_reader::PathInfo;
+
 
 #[derive(Debug)]
 pub struct PayloadPrinterCommand {}
@@ -27,7 +29,9 @@ impl Command for PayloadPrinterCommand {
 
 #[cfg(test)]
 mod tests {
-    use crate::readers::{input_command_reader::Command, path_reader::PathInfo};
+    use crate::commands::main::Command;
+    use crate::readers::path_reader::PathInfo;
+
 
     use super::PayloadPrinterCommand;
 

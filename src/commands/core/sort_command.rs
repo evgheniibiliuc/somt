@@ -1,8 +1,10 @@
 use std::str::FromStr;
 use mockall::automock;
 
-use crate::{readers::input_command_reader::Command, readers::{path_reader::PathInfo, input_command_reader::CommandParams}};
-use crate::commands::sort_command::Sort::DESC;
+use crate::commands::main::Command;
+use crate::commands::main::CommandParams;
+use crate::commands::core::sort_command::Sort::DESC;
+use crate::readers::path_reader::PathInfo;
 
 #[derive(Debug)]
 pub struct SortCommand {
@@ -60,7 +62,7 @@ enum Sort {
 
 #[cfg(test)]
 mod tests {
-    use crate::readers::input_command_reader::Command;
+    use crate::commands::main::Command;
     use crate::readers::path_reader::PathInfo;
 
     use super::Sort;

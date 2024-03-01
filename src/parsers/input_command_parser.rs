@@ -1,4 +1,4 @@
-use crate::readers::input_command_reader::{CommandOption, CommandParams};
+use crate::commands::main::{CommandOption, CommandParams};
 
 pub struct CommandParser {
     command_delimeter_mark: String,

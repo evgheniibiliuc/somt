@@ -1,4 +1,4 @@
-# SOMT - Simple File Management Tool
+# SOMT - [S]imple [O]peration [M]anagement [T]ool
 
 ## Available commands : 
 ```
@@ -17,7 +17,7 @@ largest - composed shortcut command for retrieving FILE/FOLDER from specific loc
           example: largest=folder --location=/home --limit=10
 ```
 
-### Query example :
+### Query example:
 `largest=folder --location=E:\tmp --limit=10`
 
 #### Result:

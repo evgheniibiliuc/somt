@@ -1,8 +1,9 @@
 use mockall::automock;
 use crate::{
-    readers::input_command_reader::Command,
-    readers::{path_reader::{PathInfo, PathReader, SimpleRecursivePathReader}, input_command_reader::CommandParams},
+    commands::main::Command,
+    readers::{path_reader::{PathInfo, PathReader, SimpleRecursivePathReader}},
 };
+use crate::commands::main::CommandParams;
 
 
 pub struct DirReadCommand {

@@ -1,15 +1,15 @@
 use std::collections::HashMap;
+use crate::commands::main::Command;
 
-use crate::commands::dir_read_command::DirReadCommand;
-use crate::commands::ends_with_command::EndsWithCommand;
-use crate::commands::find_file_command::FindFileCommand;
-use crate::commands::grouped_command::GroupCommand;
-use crate::commands::help_command::HelpCommand;
+use crate::commands::core::dir_read_command::DirReadCommand;
+use crate::commands::core::ends_with_command::EndsWithCommand;
+use crate::commands::core::find_file_command::FindFileCommand;
+use crate::commands::core::grouped_command::GroupCommand;
+use crate::commands::core::help_command::HelpCommand;
 use crate::commands::largest_command::LargestCommand;
-use crate::commands::limit_command::LimitCommand;
-use crate::commands::payload_printer_command::PayloadPrinterCommand;
-use crate::commands::sort_command::SortCommand;
-use crate::readers::input_command_reader::Command;
+use crate::commands::core::limit_command::LimitCommand;
+use crate::commands::core::payload_printer_command::PayloadPrinterCommand;
+use crate::commands::core::sort_command::SortCommand;
 
 pub struct CommandProvider {}
 
@@ -26,7 +26,7 @@ impl CommandProvider {
         let largest: Box<dyn Command> = Box::new(LargestCommand::new());
 
         let mut commands: HashMap<String, Box<dyn Command>> = HashMap::new();
-        commands.insert(limited.name(), Box::new(LimitCommand::new()));
+        commands.insert(limited.name(), limited);
         commands.insert(help.name(), help);
         commands.insert(payload_printer.name(), payload_printer);
         commands.insert(dir_read.name(), dir_read);

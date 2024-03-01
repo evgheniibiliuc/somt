@@ -1,9 +1,5 @@
-pub mod help_command;
-pub mod limit_command;
-pub mod dir_read_command;
-pub mod payload_printer_command;
-pub mod sort_command;
-pub mod ends_with_command;
-pub mod find_file_command;
-pub mod grouped_command;
+mod core;
 pub mod largest_command;
+pub mod provider;
+pub use core::main;
+

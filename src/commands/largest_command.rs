@@ -1,12 +1,14 @@
 use std::collections::HashMap;
 use std::str::FromStr;
-use crate::commands::dir_read_command::DirReadCommand;
-use crate::commands::grouped_command::GroupCommand;
+
+use crate::commands::core::dir_read_command::DirReadCommand;
+use crate::commands::core::grouped_command::GroupCommand;
+use crate::commands::core::limit_command::LimitCommand;
+use crate::commands::core::payload_printer_command::PayloadPrinterCommand;
+use crate::commands::core::sort_command::SortCommand;
 use crate::commands::largest_command::Type::{FILE, FOLDER};
-use crate::commands::limit_command::LimitCommand;
-use crate::commands::payload_printer_command::PayloadPrinterCommand;
-use crate::commands::sort_command::SortCommand;
-use crate::readers::input_command_reader::{Command, CommandParams};
+use crate::commands::main::Command;
+use crate::commands::main::CommandParams;
 use crate::readers::path_reader::{PathInfo, PathType};
 
 pub struct LargestCommand {

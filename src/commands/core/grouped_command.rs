@@ -1,7 +1,8 @@
 use std::collections::HashMap;
 use mockall::automock;
 
-use crate::readers::input_command_reader::{Command, CommandParams};
+use crate::commands::main::Command;
+use crate::commands::main::CommandParams;
 use crate::readers::path_reader::{PathInfo, PathType};
 use crate::readers::path_reader::PathType::{FILE, FOLDER};
 
@@ -72,8 +73,8 @@ impl GroupCommand {
 mod test {
     use std::collections::HashMap;
 
-    use crate::commands::grouped_command::GroupCommand;
-    use crate::readers::input_command_reader::Command;
+    use crate::commands::core::grouped_command::GroupCommand;
+    use crate::commands::main::Command;
     use crate::readers::path_reader::{PathInfo, PathType};
     use crate::readers::path_reader::PathType::{FILE, FOLDER};
 

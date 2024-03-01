@@ -1,4 +1,5 @@
-use crate::readers::input_command_reader::{Command, CommandParams};
+use crate::commands::main::Command;
+use crate::commands::main::CommandParams;
 
 pub struct EndsWithCommand {
     end_of_file: String,

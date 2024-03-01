@@ -4,14 +4,13 @@ use parsers::input_command_parser::CommandParser;
 use readers::input_command_reader::CommandEvaluator;
 use validators::input_command_validator::CommandValidator;
 
-use crate::provider::command_provider::CommandProvider;
+use commands::provider::command_provider::CommandProvider;
 use crate::readers::path_reader::PathInfo;
 
 mod commands;
 mod parsers;
 mod readers;
 mod validators;
-mod provider;
 
 fn main() {
     let mut commands = CommandProvider::get_available_commands();
