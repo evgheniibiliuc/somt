@@ -4,11 +4,12 @@ use std::str::FromStr;
 use crate::commands::core::dir_read_command::DirReadCommand;
 use crate::commands::core::grouped_command::GroupCommand;
 use crate::commands::core::limit_command::LimitCommand;
-use crate::commands::core::payload_printer_command::PayloadPrinterCommand;
+use crate::commands::core::print_command::PrintCommand;
 use crate::commands::core::sort_command::SortCommand;
 use crate::commands::largest_command::Type::{FILE, FOLDER};
 use crate::commands::main::Command;
 use crate::commands::main::CommandParams;
+
 use crate::readers::path_reader::{PathInfo, PathType};
 
 pub struct LargestCommand {
@@ -17,7 +18,7 @@ pub struct LargestCommand {
     sort_command: SortCommand,
     limit_command: LimitCommand,
     grouped_command: GroupCommand,
-    print_command: PayloadPrinterCommand,
+    print_command: PrintCommand,
 }
 
 
@@ -29,7 +30,7 @@ impl LargestCommand {
             sort_command: SortCommand::desc(),
             limit_command: LimitCommand::new(),
             grouped_command: GroupCommand::new(),
-            print_command: PayloadPrinterCommand::new(),
+            print_command: PrintCommand::new(),
         }
     }
 }
@@ -43,7 +44,7 @@ impl Command for LargestCommand {
         self.dir_read_command.apply(payload);
         self.grouped_command.apply(payload);
         self.sort_command.apply(payload);
-        self.limit_command.apply(payload);
+
 
         let mut output = payload.iter()
             .filter(|path_info| { Type::from_path_type(&path_info.path_type) == self._type })
@@ -53,6 +54,7 @@ impl Command for LargestCommand {
         payload.clear();
         payload.append(&mut output);
 
+        self.limit_command.apply(payload);
         self.print_command.apply(payload)
     }
 
@@ -76,7 +78,9 @@ impl Command for LargestCommand {
         match options.get(&"limit".to_string()) {
             None => {}
             Some(val) => {
-                self.limit_command.limit = val.to_string().parse::<usize>().unwrap();
+                self.limit_command.limit = val.to_string()
+                    .parse::<usize>()
+                    .unwrap_or(100);
             }
         }
     }

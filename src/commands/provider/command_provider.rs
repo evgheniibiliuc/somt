@@ -8,7 +8,7 @@ use crate::commands::core::grouped_command::GroupCommand;
 use crate::commands::core::help_command::HelpCommand;
 use crate::commands::largest_command::LargestCommand;
 use crate::commands::core::limit_command::LimitCommand;
-use crate::commands::core::payload_printer_command::PayloadPrinterCommand;
+use crate::commands::core::print_command::PrintCommand;
 use crate::commands::core::sort_command::SortCommand;
 
 pub struct CommandProvider {}
@@ -17,7 +17,7 @@ impl CommandProvider {
     pub fn get_available_commands() -> HashMap<String, Box<dyn Command>> {
         let limited: Box<dyn Command> = Box::new(LimitCommand::new());
         let help: Box<dyn Command> = Box::new(HelpCommand::new());
-        let payload_printer: Box<dyn Command> = Box::new(PayloadPrinterCommand::new());
+        let payload_printer: Box<dyn Command> = Box::new(PrintCommand::new());
         let dir_read: Box<dyn Command> = Box::new(DirReadCommand::new());
         let sort: Box<dyn Command> = Box::new(SortCommand::new());
         let file_extension: Box<dyn Command> = Box::new(EndsWithCommand::new());
