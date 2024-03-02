@@ -1,7 +1,5 @@
 use crate::commands::main::{Command, CommandParams, PayloadContext};
-use crate::readers::{
-    path_reader::{PathReader, SimpleRecursivePathReader},
-};
+use crate::readers::path_reader::{PathReader, SimpleRecursivePathReader};
 
 pub struct FindFileCommand {
     _search_path: String,
@@ -10,7 +8,7 @@ pub struct FindFileCommand {
 }
 
 impl FindFileCommand {
-    pub fn new() -> Self {
+    pub fn _new() -> Self {
         FindFileCommand {
             file_name: "".to_string(),
             _path_reader: Box::new(SimpleRecursivePathReader::new()),
