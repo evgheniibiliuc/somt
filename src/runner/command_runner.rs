@@ -2,10 +2,10 @@ use std::collections::HashMap;
 
 use crate::commands::main::{Command, CommandParams, PayloadContext};
 
-pub struct CommandEvaluator {}
+pub struct CommandRunner {}
 
-impl<'a> CommandEvaluator {
-    pub fn evaluate(
+impl<'a> CommandRunner {
+    pub fn run(
         &self,
         parsed_commands_values: &Vec<(String, CommandParams)>,
         commands_by_name: &mut HashMap<String, Box<dyn Command>>,
@@ -23,6 +23,6 @@ impl<'a> CommandEvaluator {
     }
 
     pub fn new() -> Self {
-        CommandEvaluator {}
+        CommandRunner {}
     }
 }
