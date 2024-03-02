@@ -2,7 +2,7 @@ use std::io::{self};
 
 use commands::provider::command_provider::CommandProvider;
 use parsers::input_command_parser::CommandParser;
-use readers::input_command_reader::CommandEvaluator;
+use readers::command_evaluator::CommandEvaluator;
 use validators::input_command_validator::CommandValidator;
 
 use crate::commands::main::PayloadContext;
