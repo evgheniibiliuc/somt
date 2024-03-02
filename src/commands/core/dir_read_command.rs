@@ -2,7 +2,7 @@ use mockall::automock;
 
 use crate::{
     commands::main::Command,
-    readers::path_reader::{PathInfo, PathReader, SimpleRecursivePathReader},
+    readers::path_reader::{PathReader, SimpleRecursivePathReader},
 };
 use crate::commands::main::{CommandParams, PayloadContext};
 
@@ -39,7 +39,7 @@ impl Command for DirReadCommand {
 
 #[cfg(test)]
 mod tests {
-    use crate::readers::path_reader::MockPathReader;
+    use crate::readers::path_reader::{MockPathReader, PathInfo};
 
     use super::*;
 
@@ -60,13 +60,13 @@ mod tests {
             );
             path_infos
         });
-        
+
         let mut payload_context = PayloadContext::new();
         let mut command = DirReadCommand {
             path: "/home".to_string(),
             path_reader: mock_reader,
         };
-        
+
         command.apply(&mut payload_context);
 
         let result: Vec<PathInfo> = payload_context.path_infos;

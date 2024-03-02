@@ -6,7 +6,7 @@ pub struct EndsWithCommand {
 }
 
 impl EndsWithCommand {
-    pub fn new() -> Self {
+    pub fn _new() -> Self {
         EndsWithCommand {
             end_of_file: "".to_string(),
         }
@@ -35,13 +35,13 @@ mod test {
 
     #[test]
     fn returns_ends_with_as_command_id() {
-        let ends_with_command = EndsWithCommand::new();
+        let ends_with_command = EndsWithCommand::_new();
         assert_eq!("ends_with", ends_with_command.name());
     }
 
     #[test]
     fn filters_out_non_valid_files() {
-        let mut command = EndsWithCommand::new();
+        let mut command = EndsWithCommand::_new();
         command.end_of_file = ".iso".to_string();
 
         let mut payload_context = PayloadContext {

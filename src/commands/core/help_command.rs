@@ -5,7 +5,7 @@ use crate::commands::main::CommandParams;
 pub struct HelpCommand {}
 
 impl HelpCommand {
-    pub fn new() -> Self {
+    pub fn _new() -> Self {
         HelpCommand {}
     }
 }
@@ -31,14 +31,14 @@ mod tests {
 
     #[test]
     fn returns_help_as_command_id() {
-        let help_command = HelpCommand::new();
+        let help_command = HelpCommand::_new();
 
         assert_eq!("help", help_command.name());
     }
 
     #[test]
     fn doesnt_mutate_payload() {
-        let mut help_command = HelpCommand::new();
+        let mut help_command = HelpCommand::_new();
         let mut payload: PayloadContext = PayloadContext::new();
 
         help_command.apply(&mut payload);

@@ -31,7 +31,7 @@ impl Command for SortCommand {
 }
 
 impl SortCommand {
-    pub fn new() -> Self {
+    pub fn _new() -> Self {
         SortCommand { sort: Sort::ASC }
     }
 
@@ -70,13 +70,13 @@ mod tests {
 
     #[test]
     fn returns_sort_as_command_id() {
-        let sort_command = SortCommand::new();
+        let sort_command = SortCommand::_new();
         assert_eq!("sort", sort_command.name());
     }
 
     #[test]
     fn sorts_by_file_size_desc() {
-        let mut sort_command = SortCommand::new();
+        let mut sort_command = SortCommand::_new();
         let mut payload_context = PayloadContext{
             path_infos: vec![
                 PathInfo::new(10.0, "/video"),
@@ -101,7 +101,7 @@ mod tests {
 
     #[test]
     fn sorts_by_file_size_asc() {
-        let mut sort_command = SortCommand::new();
+        let mut sort_command = SortCommand::_new();
         let mut payload_context = PayloadContext { 
             path_infos: vec![
                 PathInfo::new(40.0, "/games"),
