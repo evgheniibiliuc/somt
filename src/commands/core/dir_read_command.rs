@@ -1,10 +1,10 @@
 use mockall::automock;
+
 use crate::{
     commands::main::Command,
-    readers::{path_reader::{PathInfo, PathReader, SimpleRecursivePathReader}},
+    readers::path_reader::{PathInfo, PathReader, SimpleRecursivePathReader},
 };
-use crate::commands::main::CommandParams;
-
+use crate::commands::main::{CommandParams, PayloadContext};
 
 pub struct DirReadCommand {
     pub path: String,
@@ -26,10 +26,10 @@ impl Command for DirReadCommand {
         "dir_read".to_string()
     }
 
-    fn apply(&mut self, payload: &mut Vec<PathInfo>) {
+    fn apply(&mut self, payload_context: &mut PayloadContext) {
         let result = self.path_reader.read_dir(&self.path);
 
-        payload.append(result);
+        payload_context.path_infos.append(result);
     }
 
     fn parse_params(&mut self, params: &CommandParams) {
@@ -40,6 +40,7 @@ impl Command for DirReadCommand {
 #[cfg(test)]
 mod tests {
     use crate::readers::path_reader::MockPathReader;
+
     use super::*;
 
     #[test]
@@ -55,19 +56,20 @@ mod tests {
             let mut path_infos: Vec<PathInfo> = Vec::new();
             path_infos.insert(
                 0,
-                PathInfo::new(10.1, "/home")
+                PathInfo::new(10.1, "/home"),
             );
             path_infos
         });
-
+        
+        let mut payload_context = PayloadContext::new();
         let mut command = DirReadCommand {
             path: "/home".to_string(),
             path_reader: mock_reader,
         };
+        
+        command.apply(&mut payload_context);
 
-        let mut result: Vec<PathInfo> = vec![];
-
-        command.apply(&mut result);
+        let result: Vec<PathInfo> = payload_context.path_infos;
 
         assert_eq!(false, result.is_empty());
     }

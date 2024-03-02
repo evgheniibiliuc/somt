@@ -1,4 +1,4 @@
-use crate::commands::main::{Command, CommandParams};
+use crate::commands::main::{Command, CommandParams, PayloadContext};
 use crate::readers::{
     path_reader::{PathReader, SimpleRecursivePathReader},
 };
@@ -24,7 +24,7 @@ impl Command for FindFileCommand {
         "find_file".to_string()
     }
 
-    fn apply(&mut self, _payload: &mut Vec<crate::readers::path_reader::PathInfo>) {}
+    fn apply(&mut self, _payload_context: &mut PayloadContext) {}
 
     fn parse_params(&mut self, params: &CommandParams) {
         self.file_name = params.command_value.to_string()

@@ -1,9 +1,9 @@
-use crate::commands::main::Command;
+use crate::commands::main::{Command, PayloadContext};
 use crate::commands::main::CommandParams;
-use crate::readers::path_reader::PathInfo;
 
 #[derive(Debug)]
 pub struct HelpCommand {}
+
 impl HelpCommand {
     pub fn new() -> Self {
         HelpCommand {}
@@ -15,7 +15,7 @@ impl Command for HelpCommand {
         "help".to_string()
     }
 
-    fn apply(&mut self, _payload: &mut Vec<PathInfo>) {
+    fn apply(&mut self, _payload_context: &mut PayloadContext) {
         println!(
             "# Basic operation: 
                       dir_read=/IdeaProjects/somt grouped sort=desc limit=10 print",
@@ -39,10 +39,10 @@ mod tests {
     #[test]
     fn doesnt_mutate_payload() {
         let mut help_command = HelpCommand::new();
-        let mut payload: Vec<PathInfo> = Vec::new();
+        let mut payload: PayloadContext = PayloadContext::new();
 
         help_command.apply(&mut payload);
 
-        assert!(payload.is_empty());
+        assert!(payload.path_infos.is_empty());
     }
 }

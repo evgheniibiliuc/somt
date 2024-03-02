@@ -7,7 +7,7 @@ use crate::commands::core::limit_command::LimitCommand;
 use crate::commands::core::print_command::PrintCommand;
 use crate::commands::core::sort_command::SortCommand;
 use crate::commands::largest_command::Type::{FILE, FOLDER};
-use crate::commands::main::Command;
+use crate::commands::main::{Command, PayloadContext};
 use crate::commands::main::CommandParams;
 
 use crate::readers::path_reader::{PathInfo, PathType};
@@ -40,22 +40,22 @@ impl Command for LargestCommand {
         "largest".to_string()
     }
 
-    fn apply(&mut self, payload: &mut Vec<PathInfo>) {
-        self.dir_read_command.apply(payload);
-        self.grouped_command.apply(payload);
-        self.sort_command.apply(payload);
+    fn apply(&mut self, payload_context: &mut PayloadContext) {
+        self.dir_read_command.apply(payload_context);
+        self.grouped_command.apply(payload_context);
+        self.sort_command.apply(payload_context);
+        self.limit_command.apply(payload_context);
 
-
-        let mut output = payload.iter()
+        let mut output = payload_context.path_infos.iter()
             .filter(|path_info| { Type::from_path_type(&path_info.path_type) == self._type })
             .map(|path_info| path_info.copy())
             .collect::<Vec<PathInfo>>();
 
-        payload.clear();
-        payload.append(&mut output);
+        payload_context.path_infos.clear();
+        payload_context.path_infos.append(&mut output);
 
-        self.limit_command.apply(payload);
-        self.print_command.apply(payload)
+       
+        self.print_command.apply(payload_context)
     }
 
     fn parse_params(&mut self, params: &CommandParams) {

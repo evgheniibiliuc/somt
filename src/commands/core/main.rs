@@ -3,7 +3,7 @@ use crate::readers::path_reader::PathInfo;
 pub trait Command {
     fn name(&self) -> String;
 
-    fn apply(&mut self, payload: &mut Vec<PathInfo>);
+    fn apply(&mut self, payload: &mut PayloadContext);
 
     fn parse_params(&mut self, params: &CommandParams);
 
@@ -16,6 +16,19 @@ pub trait Command {
 pub struct CommandOption {
     pub name: String,
     pub value: String,
+}
+
+#[derive(Debug)]
+pub struct PayloadContext {
+    pub path_infos: Vec<PathInfo>,
+}
+
+impl PayloadContext {
+    pub fn new() -> Self {
+        PayloadContext {
+            path_infos: Vec::new(),
+        }
+    }
 }
 
 #[derive(Debug)]
