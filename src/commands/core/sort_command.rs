@@ -123,13 +123,6 @@ mod tests {
         assert_path_info(3, 40.0, "/games", &mut payload);
     }
 
-    fn fill_path_info(index: usize, size: f32, path: &str, paths: &mut Vec<PathInfo>) {
-        paths.insert(
-            index,
-            PathInfo::new(size, path),
-        );
-    }
-
     fn assert_path_info(index: usize, size: f32, path: &str, paths: &mut Vec<PathInfo>) {
         match paths.get(index) {
             Some(path_info) => {
