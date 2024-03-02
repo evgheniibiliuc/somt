@@ -1,7 +1,6 @@
 use mockall::automock;
-use crate::commands::main::{Command, CommandParams};
-use crate::readers::path_reader::PathInfo;
 
+use crate::commands::main::{Command, CommandParams, PayloadContext};
 
 #[derive(Debug)]
 pub struct PrintCommand {}
@@ -18,8 +17,8 @@ impl Command for PrintCommand {
         "print".to_string()
     }
 
-    fn apply(&mut self, payload: &mut Vec<PathInfo>) {
-        for ele in payload {
+    fn apply(&mut self, payload_context: &mut PayloadContext) {
+        for ele in &mut payload_context.path_infos {
             println!("[{:?}] [{}] - [{}] MB", ele.path_type, ele.path, ele.size)
         }
     }
@@ -29,9 +28,7 @@ impl Command for PrintCommand {
 
 #[cfg(test)]
 mod tests {
-    use crate::commands::main::Command;
-    use crate::readers::path_reader::PathInfo;
-
+    use crate::commands::main::{Command, PayloadContext};
 
     use super::PrintCommand;
 
@@ -44,9 +41,9 @@ mod tests {
     #[test]
     fn doesnt_mutate_payload() {
         let mut printer = PrintCommand::new();
-        let mut payload: Vec<PathInfo> = Vec::new();
+        let mut payload: PayloadContext = PayloadContext::new();
         printer.apply(&mut payload);
 
-        assert_eq!(true, payload.is_empty());
+        assert_eq!(true, payload.path_infos.is_empty());
     }
 }

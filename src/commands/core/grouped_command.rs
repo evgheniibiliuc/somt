@@ -1,7 +1,8 @@
 use std::collections::HashMap;
+
 use mockall::automock;
 
-use crate::commands::main::Command;
+use crate::commands::main::{Command, PayloadContext};
 use crate::commands::main::CommandParams;
 use crate::readers::path_reader::{PathInfo, PathType};
 use crate::readers::path_reader::PathType::{FILE, FOLDER};
@@ -17,11 +18,11 @@ impl Command for GroupCommand {
         "grouped".to_string()
     }
 
-    fn apply(&mut self, payload: &mut Vec<PathInfo>) {
+    fn apply(&mut self, payload_context: &mut PayloadContext) {
         let mut path_size_map: HashMap<String, (f32, PathType)> = HashMap::new();
         let mut result = Vec::new();
 
-        for path_info in &mut *payload {
+        for path_info in &mut payload_context.path_infos {
             for partial_path in path_info.path.split(self.line_separator) {
                 if partial_path.is_empty() {
                     continue;
@@ -54,8 +55,8 @@ impl Command for GroupCommand {
             });
         }
 
-        payload.clear();
-        payload.append(&mut result);
+        payload_context.path_infos.clear();
+        payload_context.path_infos.append(&mut result);
     }
 
     fn parse_params(&mut self, _params: &CommandParams) {
@@ -74,7 +75,7 @@ mod test {
     use std::collections::HashMap;
 
     use crate::commands::core::grouped_command::GroupCommand;
-    use crate::commands::main::Command;
+    use crate::commands::main::{Command, PayloadContext};
     use crate::readers::path_reader::{PathInfo, PathType};
     use crate::readers::path_reader::PathType::{FILE, FOLDER};
 
@@ -90,26 +91,32 @@ mod test {
         let mut group_command = GroupCommand {
             line_separator: '/'
         };
-        let mut payload = vec![
-            PathInfo::new(1.0, "/d/test/files/file_one"),
-            PathInfo::new(1.0, "/d/test/files/file_two"),
-            PathInfo::new(1.0, "/d/test/files/file_three"),
-        ];
-
-        group_command.apply(&mut payload);
-
-        let result: HashMap<String, &PathInfo> = payload.iter().map(|path_info: &PathInfo| (path_info.path.to_string(), path_info)).collect();
-
+        
+        let mut payload_context = PayloadContext {
+            path_infos: vec![
+                PathInfo::new(1.0, "/d/test/files/file_one"),
+                PathInfo::new(1.0, "/d/test/files/file_two"),
+                PathInfo::new(1.0, "/d/test/files/file_three"),
+            ]
+        };
+        
+        group_command.apply(&mut payload_context);
+        
+        let result: HashMap<String, &PathInfo> = payload_context.path_infos
+            .iter()
+            .map(|path_info: &PathInfo| 
+            (path_info.path.to_string(), path_info)).collect();
+        
         let file_one = result.get(&"/d/test/files/file_one".to_string()).unwrap();
         let file_two = result.get(&"/d/test/files/file_two".to_string()).unwrap();
         let file_three = result.get(&"/d/test/files/file_three".to_string()).unwrap();
         let files = result.get(&"/d/test/files".to_string()).unwrap();
         let test = result.get(&"/d/test".to_string()).unwrap();
         let d = result.get(&"/d".to_string()).unwrap();
-
+        
         println!("{:?}", result);
         assert_eq!(6, result.len());
-
+        
         assert_path_info(1f32, "/d/test/files/file_one", FILE, file_one.to_owned());
         assert_path_info(1f32, "/d/test/files/file_two", FILE, file_two.to_owned());
         assert_path_info(1f32, "/d/test/files/file_three", FILE, file_three.to_owned());

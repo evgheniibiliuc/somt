@@ -1,4 +1,4 @@
-use crate::commands::main::Command;
+use crate::commands::main::{Command, PayloadContext};
 use crate::commands::main::CommandParams;
 
 pub struct EndsWithCommand {
@@ -18,8 +18,9 @@ impl Command for EndsWithCommand {
         "ends_with".to_string()
     }
 
-    fn apply(&mut self, payload: &mut Vec<crate::readers::path_reader::PathInfo>) {
-        payload.retain(|path_info| path_info.path.ends_with(self.end_of_file.as_str()));
+    fn apply(&mut self, payload_context: &mut PayloadContext) {
+        payload_context.path_infos
+            .retain(|path_info| path_info.path.ends_with(self.end_of_file.as_str()));
     }
 
     fn parse_params(&mut self, params: &CommandParams) {
@@ -42,16 +43,19 @@ mod test {
     fn filters_out_non_valid_files() {
         let mut command = EndsWithCommand::new();
         command.end_of_file = ".iso".to_string();
-        let mut payload: Vec<PathInfo> = vec![
-            PathInfo::new(20.1, "game.exe"),
-            PathInfo::new(2220.51, "book.pdf"),
-            PathInfo::new(72.0, "av.iso"),
-        ];
 
-        command.apply(&mut payload);
-
-        assert_eq!(1, payload.len());
-        match payload.get(0) {
+        let mut payload_context = PayloadContext {
+            path_infos: vec![
+                PathInfo::new(20.1, "game.exe"),
+                PathInfo::new(2220.51, "book.pdf"),
+                PathInfo::new(72.0, "av.iso"),
+            ]
+        };
+        
+        command.apply(&mut payload_context);
+        
+        assert_eq!(1, payload_context.path_infos.len());
+        match payload_context.path_infos.get(0) {
             Some(path_info) => {
                 assert_eq!(72.0, path_info.size);
                 assert_eq!("av.iso", path_info.path);

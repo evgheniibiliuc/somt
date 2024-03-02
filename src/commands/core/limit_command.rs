@@ -1,7 +1,7 @@
 use mockall::automock;
-use crate::commands::main::Command;
+
+use crate::commands::main::{Command, PayloadContext};
 use crate::commands::main::CommandParams;
-use crate::readers::path_reader::PathInfo;
 
 #[derive(Debug)]
 pub struct LimitCommand {
@@ -21,9 +21,9 @@ impl Command for LimitCommand {
         "limit".to_string()
     }
 
-    fn apply(&mut self, payload: &mut Vec<PathInfo>) {
+    fn apply(&mut self, payload_context: &mut PayloadContext) {
         if self.limit != 0 {
-            payload.truncate(self.limit);
+            payload_context.path_infos.truncate(self.limit);
         }
     }
 
@@ -37,6 +37,7 @@ impl Command for LimitCommand {
 
 #[cfg(test)]
 mod tests {
+    use crate::readers::path_reader::PathInfo;
     use super::*;
 
     #[test]
@@ -50,13 +51,12 @@ mod tests {
     fn truncates_payloads_size_to_limit() {
         let mut limit_command = LimitCommand::new();
         limit_command.limit = 1;
+        let mut payload_context = PayloadContext {
+            path_infos: vec![PathInfo::default(), PathInfo::default()]
+        };
 
-        let mut payload: Vec<PathInfo> = Vec::new();
-        payload.insert(0, PathInfo::default());
-        payload.insert(1, PathInfo::default());
+        limit_command.apply(&mut payload_context);
 
-        limit_command.apply(&mut payload);
-
-        assert_eq!(1, payload.len());
+        assert_eq!(1, payload_context.path_infos.len());
     }
 }

@@ -1,11 +1,11 @@
 use std::io::{self};
 
+use commands::provider::command_provider::CommandProvider;
 use parsers::input_command_parser::CommandParser;
 use readers::input_command_reader::CommandEvaluator;
 use validators::input_command_validator::CommandValidator;
 
-use commands::provider::command_provider::CommandProvider;
-use crate::readers::path_reader::PathInfo;
+use crate::commands::main::PayloadContext;
 
 mod commands;
 mod parsers;
@@ -20,8 +20,8 @@ fn main() {
 
     loop {
         let mut input = String::new();
-        let mut payload: Vec<PathInfo> = Vec::new();
-
+        let mut payload_context = PayloadContext::new();
+        
         println!("⠙");
 
         io::stdin()
@@ -31,7 +31,7 @@ fn main() {
         let parsed_commands = command_parser.parse(input.to_owned());
 
         match command_validator.validate(&parsed_commands, &commands) {
-            Ok(_) => command_evaluator.evaluate(&parsed_commands, &mut commands, payload.as_mut()),
+            Ok(_) => command_evaluator.evaluate(&parsed_commands, &mut commands, &mut payload_context),
             Err(_) => println!("Please fix issues mentioned above"),
         }
     }
