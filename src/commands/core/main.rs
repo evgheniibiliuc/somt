@@ -1,3 +1,5 @@
+use crate::logger::console::ConsoleLogger;
+use crate::logger::logger::Logger;
 use crate::readers::path_reader::PathInfo;
 
 pub trait Command {
@@ -21,12 +23,14 @@ pub struct CommandOption {
 #[derive(Debug)]
 pub struct PayloadContext {
     pub path_infos: Vec<PathInfo>,
+    pub logger: Box<dyn Logger>,
 }
 
 impl PayloadContext {
     pub fn new() -> Self {
         PayloadContext {
             path_infos: Vec::new(),
+            logger: Box::new(ConsoleLogger::new()),
         }
     }
 }

@@ -12,6 +12,7 @@ mod parsers;
 mod readers;
 mod validators;
 mod runner;
+mod logger;
 
 fn main() {
     let mut commands = CommandProvider::get_available_commands();
@@ -25,9 +26,13 @@ fn main() {
 
         println!("⠙");
 
-        io::stdin()
-            .read_line(&mut input)
-            .expect("Unable to handle response");
+        match io::stdin().read_line(&mut input) {
+            Ok(_) => {}
+            Err(_) => {
+                payload_context.logger.log(format!("Hello {} {}", "asd","asd").as_str())
+                continue;
+            }
+        }
 
         let parsed_commands = command_parser.parse(input.to_owned());
 
