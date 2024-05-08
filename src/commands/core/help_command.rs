@@ -15,10 +15,15 @@ impl Command for HelpCommand {
         "help".to_string()
     }
 
+    
     fn apply(&mut self, _payload_context: &mut PayloadContext) {
         println!(
             "# Basic operation: 
-                      dir_read=/IdeaProjects/somt grouped sort=desc limit=10 print",
+                      dir_read=/IdeaProjects/somt grouped sort=desc limit=10 print
+             # Composed commands:
+                       largest - composed shortcut command for retrieving FILE/FOLDER from specific location.
+                           options: --location, --limit
+                           example: largest=folder --location=/home --limit=10",
         )
     }
 
